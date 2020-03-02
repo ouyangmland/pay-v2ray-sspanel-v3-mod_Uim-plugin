@@ -127,6 +127,12 @@ while [[ $# > 0 ]];do
         --useip)
         USEIP="$2"
         ;;
+        --muregex)
+        MUREGEX="$2"
+        ;;
+        --musuffix)
+        MUSUFFIX="$2"
+        ;;
         *)
                 # unknown option
         ;;
@@ -170,7 +176,7 @@ downloadV2Ray(){
     rm -rf /tmp/v2ray
     mkdir -p /tmp/v2ray
     colorEcho ${BLUE} "Downloading V2Ray."
-    DOWNLOAD_LINK="https://github.com/ouyangmland/pay-v2ray-sspanel-v3-mod_Uim-plugin/raw/master/v2ray-4.22.1.4.zip"
+    DOWNLOAD_LINK="https://github.com/ouyangmland/pay-v2ray-sspanel-v3-mod_Uim-plugin/releases/download/${NEW_VER}/v2ray-${VDIS}.zip"
     curl ${PROXY} -L -H "Cache-Control: no-cache" -o ${ZIPFILE} ${DOWNLOAD_LINK}
     if [ $? != 0 ];then
         colorEcho ${RED} "Failed to download! Please check your network or try again."
@@ -252,7 +258,7 @@ getVersion(){
         if [[ ${CUR_VER} != v* ]]; then
             CUR_VER=v${CUR_VER}
         fi
-        TAG_URL="https://api.github.com/repos/v2rayv3/pay-v2ray-sspanel-v3-mod_Uim-plugin/releases/latest"
+        TAG_URL="https://api.github.com/repos/ouyangmland/pay-v2ray-sspanel-v3-mod_Uim-plugin/releases/latest"
         NEW_VER=`curl ${PROXY} -s ${TAG_URL} --connect-timeout 10| grep 'tag_name' | cut -d\" -f4`
         if [[ ${NEW_VER} != v* ]]; then
           NEW_VER=v${NEW_VER}
@@ -437,6 +443,20 @@ installV2Ray(){
         then
                 sed -i "s|\"UseIP\"|\"${UseIP}\"|g" "/etc/v2ray/config.json"
                 colorEcho ${BLUE} "USEIP:${USEIP}"
+
+        fi
+
+        if [ ! -z "${MUREGEX}" ]
+        then
+               sed -i "s|\"%5m%id.%suffix\"|\"${MUREGEX}\"|g" "/etc/v2ray/config.json"
+                colorEcho ${BLUE} "MUREGEX:${MUREGEX}"
+
+        fi
+
+        if [ ! -z "${MUSUFFIX}" ]
+        then
+               sed -i "s|\"microsoft.com\"|\"${MUSUFFIX}\"|g" "/etc/v2ray/config.json"
+                colorEcho ${BLUE} "MUSUFFIX:${MUSUFFIX}"
 
         fi
 
