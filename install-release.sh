@@ -121,6 +121,12 @@ while [[ $# > 0 ]];do
         --cfemail)
         CFEMAIL="$2"
         ;;
+         --alikey)
+        ALiKey="$2"
+        ;;
+        --alisecret)
+        ALiSecret="$2"
+        ;;
         --nodeuserlimited)
         NODEUSERLIMITED="$2"
         ;;
@@ -132,6 +138,12 @@ while [[ $# > 0 ]];do
         ;;
         --musuffix)
         MUSUFFIX="$2"
+        ;;
+         --proxytcp)
+        PROXYTCP="$2"
+        ;;
+         --cachedurationsec)
+        CacheDurationSec="$2"
         ;;
         *)
                 # unknown option
@@ -431,7 +443,15 @@ installV2Ray(){
           sed -i "s|\"v2rayV3@test.com\"|\"${CFEMAIL}\"|g" "/etc/v2ray/config.json"
             colorEcho ${BLUE} "CFEMAIL:${CFEMAIL}"
         fi
+        if [ ! -z "${ALiKey}" ]
+        then
+        sed -i "s|\"sdfsdfsdfljlbjkljlkjsdfoiwje\"|\"${ALiKey}\"|g" "/etc/v2ray/config.json"
+        fi
+        if [ ! -z "${ALiSecret}" ]
+        then
+        sed -i "s|\"jlsdflanljkljlfdsaklkjflsa\"|\"${ALiSecret}\"|g" "/etc/v2ray/config.json"
 
+        fi
         if [ ! -z "${NODEUSERLIMITED}" ]
         then
                 sed -i "s|\"NodeUserLimited\": 4|\"NodeUserLimited\": ${NODEUSERLIMITED}|g" "/etc/v2ray/config.json"
@@ -441,7 +461,7 @@ installV2Ray(){
 
         if [ ! -z "${USEIP}" ]
         then
-                sed -i "s|\"UseIP\"|\"${UseIP}\"|g" "/etc/v2ray/config.json"
+                sed -i "s|\"UseIPv4\"|\"${UseIP}\"|g" "/etc/v2ray/config.json"
                 colorEcho ${BLUE} "USEIP:${USEIP}"
 
         fi
@@ -457,6 +477,19 @@ installV2Ray(){
         then
                sed -i "s|\"microsoft.com\"|\"${MUSUFFIX}\"|g" "/etc/v2ray/config.json"
                 colorEcho ${BLUE} "MUSUFFIX:${MUSUFFIX}"
+
+        fi
+        
+        if [ ! -z "${PROXYTCP}" ]
+        then
+                sed -i "s|\"proxy_tcp\": 0|\"proxy_tcp\": ${PROXYTCP}|g" "/etc/v2ray/config.json"
+                colorEcho ${BLUE} "PROXYTCP:${PROXYTCP}"
+
+        fi
+        if [ ! -z "${CacheDurationSec}" ]
+        then
+                sed -i "s|\"cache_duration_sec\": 0|\"cache_duration_sec\": ${CacheDurationSec}|g" "/etc/v2ray/config.json"
+                colorEcho ${BLUE} "CacheDurationSec:${CacheDurationSec}"
 
         fi
 
