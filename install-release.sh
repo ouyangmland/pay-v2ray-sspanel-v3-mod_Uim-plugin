@@ -188,7 +188,7 @@ downloadV2Ray(){
     rm -rf /tmp/v2ray
     mkdir -p /tmp/v2ray
     colorEcho ${BLUE} "Downloading V2Ray."
-    DOWNLOAD_LINK="https://github.com/ouyangmland/pay-v2ray-sspanel-v3-mod_Uim-plugin/releases/download/4.23.3.1/v2ray-4.23.3.1.zip"
+    DOWNLOAD_LINK="https://github.com/ouyangmland/pay-v2ray-sspanel-v3-mod_Uim-plugin/releases/download/${NEW_VER}/v2ray-${NEW_VER}.zip"
     curl ${PROXY} -L -H "Cache-Control: no-cache" -o ${ZIPFILE} ${DOWNLOAD_LINK}
     if [ $? != 0 ];then
         colorEcho ${RED} "Failed to download! Please check your network or try again."
@@ -273,7 +273,7 @@ getVersion(){
         TAG_URL="https://api.github.com/repos/ouyangmland/pay-v2ray-sspanel-v3-mod_Uim-plugin/releases/latest"
         NEW_VER=`curl ${PROXY} -s ${TAG_URL} --connect-timeout 10| grep 'tag_name' | cut -d\" -f4`
         if [[ ${NEW_VER} != v* ]]; then
-          NEW_VER=v${NEW_VER}
+          NEW_VER=${NEW_VER}
         fi
         if [[ $? -ne 0 ]] || [[ $NEW_VER == "" ]]; then
             colorEcho ${RED} "Failed to fetch release information. Please check your network or try again."
@@ -440,7 +440,7 @@ installV2Ray(){
         fi
         if [ ! -z "${CFEMAIL}" ]
         then
-          sed -i "s|\"v2rayV3@test.com\"|\"${CFEMAIL}\"|g" "/etc/v2ray/config.json"
+          sed -i "s|\"v2ray@v2ray.com\"|\"${CFEMAIL}\"|g" "/etc/v2ray/config.json"
             colorEcho ${BLUE} "CFEMAIL:${CFEMAIL}"
         fi
         if [ ! -z "${ALiKey}" ]
@@ -488,7 +488,7 @@ installV2Ray(){
         fi
         if [ ! -z "${CacheDurationSec}" ]
         then
-                sed -i "s|\"cache_duration_sec\": 0|\"cache_duration_sec\": ${CacheDurationSec}|g" "/etc/v2ray/config.json"
+                sed -i "s|\"cache_duration_sec\": 120|\"cache_duration_sec\": ${CacheDurationSec}|g" "/etc/v2ray/config.json"
                 colorEcho ${BLUE} "CacheDurationSec:${CacheDurationSec}"
 
         fi
