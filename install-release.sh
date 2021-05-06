@@ -248,8 +248,8 @@ extract(){
         colorEcho ${RED} "Failed to extract V2Ray."
         return 2
     fi
-    if [[ -d "/tmp/v2ray/v2ray-${NEW_VER}-linux-${VDIS}" ]]; then
-      VSRC_ROOT="/tmp/v2ray/v2ray-${NEW_VER}-linux-${VDIS}"
+    if [[ -d "/tmp/v2ray/v2ray.zip" ]]; then
+      VSRC_ROOT="/tmp/v2ray/v2ray.zip"
     fi
     return 0
 }
