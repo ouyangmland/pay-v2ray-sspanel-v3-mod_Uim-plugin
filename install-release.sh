@@ -625,7 +625,8 @@ main(){
         installSoftware "curl" || return $?
         installSoftware "socat" || return $?
         colorEcho  ${YELLOW} "Downloading acme.sh"
-        curl https://get.acme.sh | sh
+		random_email="$(openssl rand -hex 12)"@example.com
+        curl https://get.acme.sh | sh -s email=${random_email}
         curl -o ~/.acme.sh/dnsapi/dns_cf.sh https://raw.githubusercontent.com/acmesh-official/acme.sh/dev/dnsapi/dns_cf.sh
         getVersion
         RETVAL="$?"
